@@ -1,0 +1,18 @@
+.cell {
+  width: 100%;
+  height: 100px;
+}
+
+.cell.alive {
+  background-color: tomato;
+}
+
+.cell.dead {
+  background-color: ghostwhite;
+}
+
+.world {
+  display: grid;
+  grid-gap: 5px;
+  border: 2px solid black;
+}
