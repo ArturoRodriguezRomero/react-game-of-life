@@ -8,7 +8,7 @@ export function stringToGameState(...string: String[]): State {
 }
 
 export function gameToString(game: GameOfLife): String[] {
-  return chunkArray(game.state, game.dimensions.width).map((row) =>
+  return chunkArray([...game.state], game.dimensions.width).map((row) =>
     row.map((cell) => (cell === Cell.Alive ? "*" : "·")).join("")
   );
 }

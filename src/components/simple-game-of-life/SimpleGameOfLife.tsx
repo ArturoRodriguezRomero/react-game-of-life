@@ -1,37 +1,43 @@
-import React, { useState, CSSProperties } from "react";
+import React, { useState, CSSProperties, useEffect } from "react";
 import { useGameOfLife } from "../../hooks/use-game-of-life/useGameOfLife";
 import { stringToGameState } from "../../game-of-life/GameOfLifeParser";
 import { Cell } from "../../game-of-life/GameOfLife";
 import "./SimpleGameOfLife.css";
 
 export const SimpleGameOfLife: React.FC = () => {
-  const width = 6;
-  const height = 5;
+  const width = 10;
+  const height = 10;
   const initial = stringToGameState(
-    "······",
-    "··**··",
-    "·*··*·",
-    "··**··",
-    "······"
+    "··········",
+    "·····*····",
+    "···*·*····",
+    "····**····",
+    "··········",
+    "··········",
+    "········*·",
+    "······*·*·",
+    "·······**·",
+    "··········"
   );
 
   const { game } = useGameOfLife(width, height, initial);
   const [cells, setCells] = useState(initial);
 
-  const onClick = () => {
-    game.tick();
-    console.log(game.state);
-
-    setCells(game.state);
-  };
-
   const style: CSSProperties = {
-    gridTemplateColumns: `repeat(${width}, 1fr)`,
+    gridTemplateColumns: `repeat(${width}, auto)`,
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      game.tick();
+      setCells(game.state);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [setCells]);
 
   return (
-    <div>
-      <button onClick={onClick}>Tick</button>
+    <section>
       <div className="world" style={style}>
         {cells.map((value, index) => {
           if (value === Cell.Alive) {
@@ -41,6 +47,6 @@ export const SimpleGameOfLife: React.FC = () => {
           }
         })}
       </div>
-    </div>
+    </section>
   );
 };

@@ -25,9 +25,7 @@ export class GameOfLife {
 
   public tick(): void {
     let newState = this.state.map((cell, index) => {
-      const rowIndex = Math.floor(index / this.dimensions.width);
-      const columnIndex = index - rowIndex * this.dimensions.width;
-      const aliveNeighbors = this.aliveNeighborCount(rowIndex, columnIndex);
+      const aliveNeighbors = this.aliveNeighborCount(index);
 
       if (cell === Cell.Alive) {
         if (aliveNeighbors < 2) return Cell.Dead;
@@ -43,47 +41,24 @@ export class GameOfLife {
     this.state = newState;
   }
 
-  private aliveNeighborCount(rowIndex: number, columnIndex: number): number {
-    const north = (index: number): Cell => {
-      return this.state[
-        index < 0
-          ? this.dimensions.width * (this.dimensions.height - 1) + columnIndex
-          : index
-      ];
-    };
+  private aliveNeighborCount(index: number): number {
+    let count = 0;
+    const row = Math.floor(index / this.dimensions.width);
+    const column = index - row * this.dimensions.width;
 
-    const east = (index: number): Cell => {
-      return this.state[
-        index < rowIndex * this.dimensions.width
-          ? this.dimensions.width * rowIndex + 1
-          : index
-      ];
-    };
+    for (let deltaRow of [this.dimensions.height - 1, 0, 1]) {
+      for (let deltaCol of [this.dimensions.width - 1, 0, 1]) {
+        if (deltaRow === 0 && deltaCol === 0) {
+          continue;
+        }
 
-    const south = (index: number): Cell => {
-      return this.state[index >= this.state.length ? columnIndex : index];
-    };
+        const neighbor_row = (row + deltaRow) % this.dimensions.height;
+        const neighbor_col = (column + deltaCol) % this.dimensions.width;
+        const index = neighbor_row * this.dimensions.width + neighbor_col;
+        count += this.state[index] === Cell.Alive ? 1 : 0;
+      }
+    }
 
-    const west = (index: number): Cell => {
-      return this.state[
-        index < rowIndex * this.dimensions.width
-          ? this.dimensions.width * (rowIndex + 1) - 1
-          : index
-      ];
-    };
-
-    const northIndex = (rowIndex - 1) * this.dimensions.width + columnIndex;
-    const eastIndex = rowIndex * this.dimensions.width + columnIndex + 1;
-    const southIndex = (rowIndex + 1) * this.dimensions.width + columnIndex;
-    const westIndex = rowIndex * this.dimensions.width + columnIndex - 1;
-
-    const aliveCount = [
-      north(northIndex),
-      east(eastIndex),
-      south(southIndex),
-      west(westIndex),
-    ].filter((cell) => cell === Cell.Alive).length;
-
-    return aliveCount;
+    return count;
   }
 }
