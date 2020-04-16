@@ -1,5 +1,5 @@
 import React, { useState, CSSProperties, useEffect } from "react";
-import { Cell, GameOfLife } from "../../game-of-life/GameOfLife";
+import { Cell } from "../../game-of-life/GameOfLife";
 import { GameExamples } from "../../game-of-life/GameExamples";
 import "./SimpleGameOfLife.css";
 
