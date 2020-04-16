@@ -42,9 +42,9 @@ export class GameOfLife {
   }
 
   private aliveNeighborCount(index: number): number {
-    let count = 0;
     const row = Math.floor(index / this.dimensions.width);
     const column = index - row * this.dimensions.width;
+    let count = 0;
 
     for (let deltaRow of [this.dimensions.height - 1, 0, 1]) {
       for (let deltaCol of [this.dimensions.width - 1, 0, 1]) {
@@ -52,10 +52,12 @@ export class GameOfLife {
           continue;
         }
 
-        const neighbor_row = (row + deltaRow) % this.dimensions.height;
-        const neighbor_col = (column + deltaCol) % this.dimensions.width;
-        const index = neighbor_row * this.dimensions.width + neighbor_col;
-        count += this.state[index] === Cell.Alive ? 1 : 0;
+        const neighborRow = (row + deltaRow) % this.dimensions.height;
+        const neighborColumn = (column + deltaCol) % this.dimensions.width;
+        const neighborIndex =
+          neighborRow * this.dimensions.width + neighborColumn;
+
+        count += this.state[neighborIndex] === Cell.Alive ? 1 : 0;
       }
     }
 

@@ -22,9 +22,9 @@ describe("GameOfLife", () => {
     });
 
     test("Loaf", () => {
-      const loaf = ["······", "··**··", "·*··*·", "··**··", "······", "······"];
+      const loaf = ["······", "··**··", "·*··*·", "··**··", "······"];
 
-      const game = GameOfLife.new(6, 6, stringToGameState(...loaf));
+      const game = GameOfLife.new(6, 5, stringToGameState(...loaf));
       game.tick();
 
       expect(gameToString(game)).toEqual(loaf);

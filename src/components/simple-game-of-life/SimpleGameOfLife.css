@@ -8,6 +8,10 @@ section {
   justify-content: center;
 }
 
+.example {
+  margin-bottom: 10px;
+}
+
 .world {
   display: grid;
   width: fit-content;
