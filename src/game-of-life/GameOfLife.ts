@@ -1,6 +1,6 @@
 export enum Cell {
-  Alive = "Alive",
-  Dead = "Dead",
+  Alive,
+  Dead,
 }
 
 export type State = Cell[];
